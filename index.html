@@ -81,7 +81,7 @@ table{width:100%;border-collapse:separate;border-spacing:0}th,td{text-align:left
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfThi3ce10tyiisalFUGbD1qBUuLQsFU57u-Hb3oXmKbO4Wpw2reL0V7PkOLYltJYddA/exec';
 // -----------------------------------------
 
-const KEY='efootball_league_v5';
+const KEY='efootball_league_v6';
 const defaultState={
   league:{name:'eFootball League',season:'Season 1',legs:1,pointsWin:3,pointsDraw:1,pointsLoss:0},
   players:[],matches:[],
@@ -324,7 +324,7 @@ function playersPage(){
 }
 function schedulePage(){
  if(!isAdmin())return '';
- return `<div class="notice">Generator ini membuat format <strong>Round Robin</strong>: setiap pemain bertemu sesuai pengaturan jumlah Leg liga Anda.</div><div class="card"><div class="form"><div class="field"><label>Tanggal mulai</label><input id="startDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Jarak antar ronde (hari)</label><input id="gap" type="number" min="1" value="3"></div></div><div class="actions" style="margin-top:14px"><button class="btn primary" onclick="generateSchedule()">Generate Jadwal</button><button class="btn danger" onclick="clearSchedule()">Hapus semua jadwal</button></div></div><div class="card section">${state.matches.length?state.matches.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).map(matchRow).join(''):`<div class="empty">Belum ada jadwal.</div>`}</div>`;
+ return `<div class="notice">Generator ini menggunakan format <strong>Round Robin</strong> (semua peserta saling bertemu, dan peserta dijamin tidak melawan dirinya sendiri).</div><div class="card"><div class="form"><div class="field"><label>Tanggal mulai</label><input id="startDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Jarak antar ronde (hari)</label><input id="gap" type="number" min="1" value="3"></div></div><div class="actions" style="margin-top:14px"><button class="btn primary" onclick="generateSchedule()">Generate Jadwal</button><button class="btn danger" onclick="clearSchedule()">Hapus semua jadwal</button></div></div><div class="card section">${state.matches.length?state.matches.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).map(matchRow).join(''):`<div class="empty">Belum ada jadwal.</div>`}</div>`;
 }
 function statsPage(){
  let s=standings(), totalGoals=s.reduce((a,x)=>a+x.gf,0), top=s[0];
@@ -419,7 +419,7 @@ function openMatch(mid){
 function saveMatch(mid){
  if(!isAdmin())return;
  let home=document.getElementById('mHome').value,away=document.getElementById('mAway').value,played=document.getElementById('mPlayed').value==='1',hs=document.getElementById('mHS').value,as=document.getElementById('mAS').value,date=document.getElementById('mDate').value,leg=Number(document.getElementById('mLeg').value)||1;
- if(home===away)return toast('Pemain 1 dan Pemain 2 harus berbeda');
+ if(home===away)return toast('Pemain tidak bisa melawan dirinya sendiri!');
  if(played&&(hs===''||as===''||+hs<0||+as<0))return toast('Masukkan skor yang valid');
  let obj={id:mid||id(),home,away,homeScore:played?+hs:null,awayScore:played?+as:null,played,date,leg};
  if(mid)Object.assign(state.matches.find(x=>x.id===mid),obj);else state.matches.push(obj);
@@ -452,6 +452,9 @@ function generateSchedule(){
   rotation=arr.slice();
   if(leg===1) rotation=arr.slice();
  }
+ // Filter pengaman ketat agar tidak ada pemain yang melawan dirinya sendiri
+ created = created.filter(m => m.home !== m.away);
+
  if(state.matches.length&&!confirm('Jadwal lama akan ditambahkan, bukan diganti. Lanjutkan?'))return;
  state.matches.push(...created);save();render();toast(created.length+' pertandingan dibuat ('+legs+' leg)');
 }
