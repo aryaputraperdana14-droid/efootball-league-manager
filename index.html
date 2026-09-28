@@ -43,14 +43,14 @@ table{width:100%;border-collapse:separate;border-spacing:0}th,td{text-align:left
 
 /* RESPONSIVE TABLE STYLING */
 .standings-wrap{width:100%;background:#0d151f !important;border:1px solid #223143 !important;border-radius:18px !important;overflow-x:auto!important;}
-.standings-wrap table{width:100%!important;min-width:720px;border-collapse:separate!important;border-spacing:0!important;background:#0d151f !important;color:#e6edf5 !important;}
-.standings-wrap thead th{height:52px;background:#0a111a !important;color:#7f8c9d !important;border-bottom:1px solid #202d3c !important;font-size:11.5px;font-weight:800;text-transform:uppercase;vertical-align:middle;padding:10px 8px;}
-.standings-wrap tbody td{height:68px;background:#0d151f !important;color:#dce5ee !important;border-bottom:1px solid #202d3c !important;font-size:14px;vertical-align:middle;white-space:nowrap;padding:10px 8px;}
+.standings-wrap table{width:100%!important;min-width:760px;border-collapse:separate!important;border-spacing:0!important;background:#0d151f !important;color:#e6edf5 !important;}
+.standings-wrap thead th{height:52px;background:#0a111a !important;color:#7f8c9d !important;border-bottom:1px solid #202d3c !important;font-size:11.5px;font-weight:800;text-transform:uppercase;vertical-align:middle;padding:10px 10px;white-space:nowrap;}
+.standings-wrap tbody td{height:68px;background:#0d151f !important;color:#dce5ee !important;border-bottom:1px solid #202d3c !important;font-size:14px;vertical-align:middle;white-space:nowrap;padding:10px 10px;}
 .standings-wrap th:nth-child(1),.standings-wrap td:nth-child(1){width:45px;text-align:center}
 .standings-wrap th:nth-child(2),.standings-wrap td:nth-child(2){width:160px;text-align:left}
 .standings-wrap th:nth-child(n+3):nth-child(-n+9),.standings-wrap td:nth-child(n+3):nth-child(-n+9){width:55px;text-align:center}
 .standings-wrap th:nth-child(10),.standings-wrap td:nth-child(10){width:65px;text-align:center}
-.standings-wrap th:nth-child(11),.standings-wrap td:nth-child(11){min-width:210px;text-align:left}
+.standings-wrap th:nth-child(11),.standings-wrap td:nth-child(11){min-width:230px;text-align:left}
 
 .standings-wrap .form-last5 {
     display: flex !important;
@@ -210,16 +210,10 @@ function loadLocal(){
 }
 
 async function load() {
-  document.getElementById('app').innerHTML = `<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#21e06f;font-family:sans-serif;">
-    <div style="font-size:40px;margin-bottom:20px;animation: spin 1s linear infinite;">⚽</div>
-    <h2>Menghubungkan ke Database...</h2>
-    <style>@keyframes spin { 100% { transform:rotate(360deg); } }</style>
-  </div>`;
+  state = loadLocal();
+  render();
 
   if(SCRIPT_URL.startsWith('PASTE')) {
-    state = loadLocal();
-    render();
-    toast('Mode Lokal (Google Drive belum disetting)');
     return;
   }
 
@@ -230,18 +224,16 @@ async function load() {
     if (Object.keys(data).length > 0) {
        state = {...structuredClone(defaultState), ...data, league:{...structuredClone(defaultState.league), ...(data.league||{})}, auth:{role:'public', adminPass: data.auth?.adminPass || defaultState.auth.adminPass}};
        localStorage.setItem(KEY,JSON.stringify(state));
-    } else {
-       state = loadLocal();
+       render();
     }
   } catch(e) {
-    console.warn("Gagal terhubung ke Drive, menggunakan data lokal", e);
-    state = loadLocal();
+    console.warn("Background sync gagal, menggunakan data lokal", e);
   }
-  render();
 }
 
 function save(){
   localStorage.setItem(KEY,JSON.stringify(state));
+  render();
 
   if(!SCRIPT_URL.startsWith('PASTE')) {
     let oldToast = document.getElementById('syncToast');
@@ -319,7 +311,7 @@ function toggleSidebar(){
   document.getElementById('side').classList.toggle('open');
 }
 
-function pageTitle(){return {dashboard:'Dashboard',standings:'Klasemen Liga',matches:'Pertandingan',players:'Manajemen Pemain',schedule:'Jadwal Liga',stats:'Statistik',settings:'Pengaturan'}[current]}
+function pageTitle(){return {dashboard:'Dashboard',standings:'Klasemen Liga',matches:'Pertandingan',players:'Manajemen Pemain',schedule:'Jadwal Liga',stats:'Statistik Liga',settings:'Pengaturan'}[current]}
 function page(){
  if(current==='dashboard')return dashboard();
  if(current==='standings')return standingsPage();
@@ -388,12 +380,12 @@ function standingsTable(rows){
    <div class="notice" style="margin-bottom:0;flex:1">${desc}</div>
    <button class="btn primary small" onclick="exportStandingsImage()">📷 Unduh Klasemen (PNG)</button>
  </div>
- <div id="exportableStandings" class="standings-wrap" style="padding:15px;background:#0d151f;">
-   <div style="display:none;margin-bottom:15px;text-align:center;" id="exportHeader">
-     <h2 style="margin:0;color:#fff;font-size:20px;">${esc(state.league.name)} - ${esc(state.league.season)}</h2>
-     <p style="margin:4px 0 0;color:#8995a5;font-size:12px;">Klasemen Resmi Turnamen</p>
+ <div id="exportableStandings" class="standings-wrap" style="padding:20px;background:#0d151f;width:100%;max-width:none;">
+   <div style="display:none;margin-bottom:20px;text-align:center;" id="exportHeader">
+     <h2 style="margin:0;color:#fff;font-size:24px;font-weight:900;">${esc(state.league.name)} - ${esc(state.league.season)}</h2>
+     <p style="margin:6px 0 0;color:#8995a5;font-size:13px;letter-spacing:1px;text-transform:uppercase;">Klasemen Resmi Turnamen</p>
    </div>
-   <table><thead><tr><th>#</th><th>Pemain</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Poin</th><th>Semua pertandingan</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td class="rank">${i+1}</td><td class="standings-player"><strong class="player-link" onclick="viewPlayerProfile('${x.id}')" title="Klik untuk lihat profil">${esc(x.name)}</strong></td><td>${x.played}</td><td>${x.wins}</td><td>${x.draws}</td><td>${x.losses}</td><td>${x.gf}</td><td>${x.ga}</td><td>${x.gd>0?'+':''}${x.gd}</td><td><strong>${x.pts}</strong></td><td>${lastMatch(x.id,standingsLeg)}</td></tr>`).join('')}</tbody></table>
+   <table><thead><tr><th>#</th><th>Pemain</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Poin</th><th>Semua Pertandingan</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td class="rank">${i+1}</td><td class="standings-player"><strong class="player-link" onclick="viewPlayerProfile('${x.id}')" title="Klik untuk lihat profil">${esc(x.name)}</strong></td><td>${x.played}</td><td>${x.wins}</td><td>${x.draws}</td><td>${x.losses}</td><td>${x.gf}</td><td>${x.ga}</td><td>${x.gd>0?'+':''}${x.gd}</td><td><strong>${x.pts}</strong></td><td>${lastMatch(x.id,standingsLeg)}</td></tr>`).join('')}</tbody></table>
  </div>`;
 }
 
@@ -403,14 +395,17 @@ function exportStandingsImage(){
  if(!el) return;
  
  header.style.display = 'block';
+ el.style.width = '900px';
  toast('Memproses gambar klasemen...');
 
  html2canvas(el, {
    scale: 2,
    backgroundColor: '#0d151f',
-   logging: false
+   logging: false,
+   windowWidth: 1000
  }).then(canvas => {
    header.style.display = 'none';
+   el.style.width = '100%';
    let link = document.createElement('a');
    link.download = `Klasemen-${state.league.name.replace(/\s+/g, '_')}-${state.league.season.replace(/\s+/g, '_')}.png`;
    link.href = canvas.toDataURL('image/png');
@@ -418,6 +413,7 @@ function exportStandingsImage(){
    toast('Klasemen berhasil diunduh!');
  }).catch(err => {
    header.style.display = 'none';
+   el.style.width = '100%';
    console.error(err);
    toast('Gagal mengunduh gambar');
  });
@@ -476,13 +472,72 @@ function schedulePage(){
  if(!isAdmin())return;
  return `<div class="notice">Generator ini menggunakan format <strong>Round Robin</strong> (semua peserta saling bertemu, dan peserta dijamin tidak melawan dirinya sendiri).</div><div class="card"><div class="form"><div class="field"><label>Tanggal mulai</label><input id="startDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Jarak antar ronde (hari)</label><input id="gap" type="number" min="1" value="3"></div></div><div class="actions" style="margin-top:14px"><button class="btn primary" onclick="generateSchedule()">Generate Jadwal</button><button class="btn danger" onclick="clearSchedule()">Hapus semua jadwal</button></div></div><div class="card section">${state.matches.length?state.matches.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).map(matchRow).join(''):`<div class="empty">Belum ada jadwal.</div>`}</div>`;
 }
+
+// --- PEMBARUAN HALAMAN STATISTIK AGAR JELAS & TIDAK AMBIGU ---
 function statsPage(){
  let s=standings(), totalGoals=s.reduce((a,x)=>a+x.gf,0), top=s[0];
+ let playedMatchesCount = state.matches.filter(m=>m.played).length;
  let scorer=state.matches.filter(m=>m.played).map(m=>({h:m.home,a:m.away,hg:+m.homeScore,ag:+m.awayScore})).reduce((o,m)=>{o[m.h]=(o[m.h]||0)+m.hg;o[m.a]=(o[m.a]||0)+m.ag;return o},{});
  let topGoals=Object.entries(scorer).sort((a,b)=>b[1]-a[1]);
- return `<div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;"><div class="card stat"><div class="muted">Total Gol</div><div class="num">${totalGoals}</div></div><div class="card stat"><div class="muted">Rata-rata / Match</div><div class="num">${state.matches.filter(m=>m.played).length?(totalGoals/state.matches.filter(m=>m.played).length).toFixed(2):'0'}</div></div><div class="card stat"><div class="muted">Pemuncak</div><div class="num" style="font-size:20px">${top?esc(top.name):'-'}</div></div><div class="card stat"><div class="muted">Match Selesai</div><div class="num">${state.matches.filter(m=>m.played).length}</div></div></div>
- <div class="section card"><div class="section-head"><h2>Gol per Pemain</h2></div>${topGoals.length?`<div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Pemain</th><th>Gol</th></tr></thead><tbody>${topGoals.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(player(x[0])?.name||'-')}</td><td><strong>${x[1]}</strong></td></tr>`).join('')}</tbody></table></div>`:`<div class="empty">Belum ada data pertandingan.</div>`}</div>`;
+ 
+ return `
+ <div class="notice" style="margin-bottom:18px;">
+   <strong>ℹ️ Panduan Statistik:</strong> Halaman ini merangkum catatan performa keseluruhan dari seluruh pertandingan yang sudah selesai dimainkan di liga ini.
+ </div>
+
+ <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:14px;margin-bottom:20px;">
+   <div class="card stat">
+     <div class="label">Akumulasi Gol Masuk</div>
+     <div class="num">${totalGoals}</div>
+     <div class="sub">Total seluruh gol tercipta dari semua laga</div>
+   </div>
+   <div class="card stat">
+     <div class="label">Rata-rata Gol / Laga</div>
+     <div class="num">${playedMatchesCount?(totalGoals/playedMatchesCount).toFixed(2):'0'}</div>
+     <div class="sub">Gol tercipta per satu pertandingan</div>
+   </div>
+   <div class="card stat">
+     <div class="label">Pemuncak Klasemen</div>
+     <div class="num" style="font-size:20px;margin-top:12px;">${top?esc(top.name):'-'}</div>
+     <div class="sub">Peringkat 1 saat ini</div>
+   </div>
+   <div class="card stat">
+     <div class="label">Laga Selesai</div>
+     <div class="num">${playedMatchesCount}</div>
+     <div class="sub">Pertandingan tuntas dimainkan</div>
+   </div>
+ </div>
+
+ <div class="section card">
+   <div class="section-head">
+     <div>
+       <h2>Daftar Produktivitas Gol Pemain</h2>
+       <p>Total gol yang dicetak oleh masing-masing pemain ke gawang lawan</p>
+     </div>
+   </div>
+   ${topGoals.length?`
+   <div style="overflow-x:auto">
+     <table>
+       <thead>
+         <tr>
+           <th style="width:50px;text-align:center;">#</th>
+           <th>Nama Pemain</th>
+           <th style="text-align:center;">Total Gol Dicetak</th>
+         </tr>
+       </thead>
+       <tbody>
+         ${topGoals.map((x,i)=>`
+         <tr>
+           <td style="text-align:center;font-weight:900;">${i+1}</td>
+           <td><strong>${esc(player(x[0])?.name||'-')}</strong></td>
+           <td style="text-align:center;"><strong style="color:var(--accent);font-size:15px;">${x[1]} Gol</strong></td>
+         </tr>`).join('')}
+       </tbody>
+     </table>
+   </div>`:`<div class="empty">Belum ada data pertandingan selesai untuk dihitung statistiknya.</div>`}
+ </div>`;
 }
+
 function settingsPage(){
  if(!isAdmin())return '';
  return `<div class="card"><h2>Pengaturan Liga</h2><div class="form">
