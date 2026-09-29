@@ -10,7 +10,15 @@
 :root{--bg:#070b12;--panel:#0e141d;--panel2:#141d29;--panel3:#192433;--text:#f5f7fa;--muted:#8995a5;--line:#202c3b;--accent:#20e06f;--accent2:#12b956;--gold:#f6c945;--red:#ff4d5f;--blue:#5ba7ff;--shadow:0 18px 55px rgba(0,0,0,.28)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 70% -10%,#17263a 0,#0a1018 38%,#070b12 75%);color:var(--text);min-height:100vh;display:flex;flex-direction:column}button,input,select{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}
 .sidebar{width:268px;background:rgba(8,12,18,.96);backdrop-filter:blur(18px);border-right:1px solid var(--line);padding:22px 15px;position:fixed;inset:0 auto 0 0;z-index:50;display:flex;flex-direction:column;transition:transform .25s ease}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 25px;font-size:19px;font-weight:900;letter-spacing:-.3px}.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#087f3b);display:grid;place-items:center;box-shadow:0 8px 24px rgba(32,224,111,.18)}.brand span{color:#fff}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:600;margin-top:2px}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.3px;color:#566272;padding:12px 12px 6px}.nav button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:#8f9baa;padding:11px 12px;border-radius:11px;margin:3px 0;font-weight:650;transition:.18s}.nav button:hover{background:#101925;color:#fff}.nav button.active{background:linear-gradient(90deg,rgba(32,224,111,.14),rgba(32,224,111,.035));border-color:rgba(32,224,111,.18);color:#fff}.nav .ico{width:22px;text-align:center;font-size:16px}.nav-bottom{margin-top:auto}.logout{color:#ff9da7!important}.admin-login-btn{background:linear-gradient(135deg,rgba(246,201,69,.12),rgba(246,201,69,.03));border:1px solid rgba(246,201,69,.25)!important;color:var(--gold)!important;font-weight:700!important}.admin-login-btn:hover{background:linear-gradient(135deg,rgba(246,201,69,.2),rgba(246,201,69,.08))!important}
-.main{margin-left:268px;width:calc(100% - 268px);padding:28px 34px 44px;max-width:1680px;transition:all .25s ease;flex:1}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:25px}.title{display:flex;align-items:center;gap:12px}.title h1{margin:0;font-size:28px;letter-spacing:-.6px}.title p{margin:4px 0 0;color:var(--muted);font-size:13px}.top-left{display:flex;align-items:center;gap:12px}.admin-badge{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(246,201,69,.3);border-radius:999px;background:rgba(246,201,69,.08);color:var(--gold);font-size:12px;font-weight:700;white-space:nowrap}.online-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.main{margin-left:268px;width:calc(100% - 268px);padding:28px 34px 44px;max-width:1680px;transition:all .25s ease;flex:1}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:25px}.title{display:flex;align-items:center;gap:12px}.title h1{margin:0;font-size:28px;letter-spacing:-.6px}.title p{margin:4px 0 0;color:var(--muted);font-size:13px}.top-left{display:flex;align-items:center;gap:12px}.top-right-badges{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.admin-badge{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(246,201,69,.3);border-radius:999px;background:rgba(246,201,69,.08);color:var(--gold);font-size:12px;font-weight:700;white-space:nowrap}.online-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+/* DB Status Badge Styles */
+.db-status-badge{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;border:1px solid var(--line);background:#121a25;color:#8995a5}
+.db-status-badge.connected{border-color:rgba(32,224,111,.3);background:rgba(32,224,111,.08);color:var(--accent)}
+.db-status-badge.connecting{border-color:rgba(246,201,69,.3);background:rgba(246,201,69,.08);color:var(--gold)}
+.db-status-badge.disconnected{border-color:rgba(255,77,95,.3);background:rgba(255,77,95,.08);color:var(--red)}
+.db-dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:linear-gradient(180deg,rgba(18,26,37,.96),rgba(12,18,27,.96));border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:var(--shadow)}
 .stat{position:relative;overflow:hidden}.stat:after{content:"";position:absolute;right:-22px;bottom:-30px;width:90px;height:90px;border-radius:50%;background:rgba(32,224,111,.055)}.stat .num{font-size:31px;font-weight:900;margin-top:8px;letter-spacing:-1px}.stat .label{color:#9aa6b5;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px}.stat .sub{font-size:11px;color:#667385;margin-top:4px}.green{color:var(--accent)}.gold{color:var(--gold)}.dangerText{color:#ff7f8b}.blue{color:var(--blue)}.muted{color:var(--muted)}
 .section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:15px}.section-head h2{font-size:18px;margin:0;letter-spacing:-.2px}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#141e2b;color:#fff;padding:10px 14px;border-radius:10px;font-weight:700;transition:.18s;box-shadow:0 5px 14px rgba(0,0,0,.12)}.btn:hover{background:#1b2a3c;transform:translateY(-1px)}.btn.primary{background:linear-gradient(135deg,#1ad568,#0eaf4e);border-color:#19c75d;color:#04140b}.btn.danger{background:#32151b;border-color:#61242d;color:#ffb1b9}.btn.small{padding:7px 10px;font-size:12px}.mobile-menu{display:none}
@@ -194,6 +202,7 @@ const defaultState={
   auth:{role:'public', adminPass:'admin123'}
 };
 let state = structuredClone(defaultState), current='dashboard', matchFilter='all', matchSearch='', standingsLeg=1, matchesLegTab=1;
+let dbStatus = 'connecting'; // Status koneksi database: 'connecting', 'connected', 'disconnected', 'local'
 
 function loadLocal(){
   try{
@@ -214,20 +223,29 @@ async function load() {
   render();
 
   if(SCRIPT_URL.startsWith('PASTE')) {
+    dbStatus = 'local';
+    render();
     return;
   }
 
   try {
+    dbStatus = 'connecting';
+    render();
+    
     let res = await fetch(SCRIPT_URL);
     let text = await res.text();
     let data = text ? JSON.parse(text) : {};
+    
     if (Object.keys(data).length > 0) {
        state = {...structuredClone(defaultState), ...data, league:{...structuredClone(defaultState.league), ...(data.league||{})}, auth:{role:'public', adminPass: data.auth?.adminPass || defaultState.auth.adminPass}};
        localStorage.setItem(KEY,JSON.stringify(state));
-       render();
     }
+    dbStatus = 'connected';
+    render();
   } catch(e) {
     console.warn("Background sync gagal, menggunakan data lokal", e);
+    dbStatus = 'disconnected';
+    render();
   }
 }
 
@@ -256,13 +274,17 @@ function save(){
     }).then(() => {
       d.style.background = '#0a4224';
       d.innerHTML = '✓ Tersimpan di Cloud';
+      dbStatus = 'connected';
       setTimeout(()=>d.remove(), 2500);
+      render();
     }).catch((e) => {
       d.style.background = '#61242d';
       d.style.borderColor = '#ff4d5f';
       d.innerHTML = '✕ Gagal Sync (Lokal aman)';
+      dbStatus = 'disconnected';
       setTimeout(()=>d.remove(), 4000);
       console.error(e);
+      render();
     });
   }
 }
@@ -295,6 +317,20 @@ function navItems(){
 
 function render(){
  let badgeText = isAdmin() ? '<i class="online-dot"></i> Presiden FIFA Berkuasa' : '🌐 Mode Publik';
+ 
+ let dbBadgeClass = 'connecting';
+ let dbBadgeText = 'Menghubungkan DB...';
+ if(dbStatus === 'connected') {
+   dbBadgeClass = 'connected';
+   dbBadgeText = 'DB Terhubung (Cloud)';
+ } else if(dbStatus === 'disconnected') {
+   dbBadgeClass = 'disconnected';
+   dbBadgeText = 'DB Offline (Mode Lokal)';
+ } else if(dbStatus === 'local') {
+   dbBadgeClass = 'disconnected';
+   dbBadgeText = 'Mode Lokal (Tanpa Cloud)';
+ }
+
  let bottomAuthBtn = isAdmin() ? 
    `<button class="logout" onclick="logoutAdmin()"><span class="ico">↪</span><span>Keluar Presiden FIFA</span></button>` :
    `<button class="admin-login-btn" onclick="promptLoginAdmin()"><span class="ico">👑</span><span>Akses Ruang Presiden FIFA</span></button>`;
@@ -303,7 +339,24 @@ function render(){
  <aside class="sidebar" id="side"><div class="brand"><div class="brand-mark">⚽</div><div><span>${esc(state.league.name)}</span><small>LEAGUE MANAGER</small></div></div>
  <div class="nav"><div class="nav-label">Menu utama</div>${navItems().map(([k,i,v])=>`<button class="${current===k?'active':''}" onclick="go('${k}')"><span class="ico">${i}</span><span>${v}</span></button>`).join('')}</div>
  <div class="nav-bottom"><div class="nav-label">Otoritas</div>${bottomAuthBtn}</div></aside>
- <main class="main"><div class="top"><div class="top-left"><button class="btn mobile-menu" onclick="toggleSidebar()">☰</button><div class="title"><div><h1>${pageTitle()}</h1><p>${esc(state.league.name)} · ${esc(state.league.season)}</p></div></div></div><span class="admin-badge">${badgeText}</span></div><div id="content">${page()}</div></main>
+ <main class="main">
+   <div class="top">
+     <div class="top-left">
+       <button class="btn mobile-menu" onclick="toggleSidebar()">☰</button>
+       <div class="title">
+         <div>
+           <h1>${pageTitle()}</h1>
+           <p>${esc(state.league.name)} · ${esc(state.league.season)}</p>
+         </div>
+       </div>
+     </div>
+     <div class="top-right-badges">
+       <div class="db-status-badge ${dbBadgeClass}"><i class="db-dot"></i> ${dbBadgeText}</div>
+       <span class="admin-badge">${badgeText}</span>
+     </div>
+   </div>
+   <div id="content">${page()}</div>
+ </main>
  <footer class="footer"><span>© 2026 <strong>eFootball League Official</strong>. All Rights Reserved.</span><span>Sistem ini dirancang oleh: <strong>Muhammad Arya Putra Perdana</strong></span></footer>`;
 }
 
@@ -386,15 +439,24 @@ function standingsTable(rows){
      <p style="margin:6px 0 0;color:#8995a5;font-size:13px;letter-spacing:1px;text-transform:uppercase;">Klasemen Resmi Turnamen</p>
    </div>
    <table><thead><tr><th>#</th><th>Pemain</th><th>M</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Poin</th><th>Semua Pertandingan</th></tr></thead><tbody>${rows.map((x,i)=>`<tr><td class="rank">${i+1}</td><td class="standings-player"><strong class="player-link" onclick="viewPlayerProfile('${x.id}')" title="Klik untuk lihat profil">${esc(x.name)}</strong></td><td>${x.played}</td><td>${x.wins}</td><td>${x.draws}</td><td>${x.losses}</td><td>${x.gf}</td><td>${x.ga}</td><td>${x.gd>0?'+':''}${x.gd}</td><td><strong>${x.pts}</strong></td><td>${lastMatch(x.id,standingsLeg)}</td></tr>`).join('')}</tbody></table>
+   
+   <!-- Bagian Footer yang akan muncul saat diexport -->
+   <div style="display:none;margin-top:20px;padding-top:15px;border-top:1px solid #202d3c;text-align:center;font-size:12px;color:#7f8c9d;line-height:1.6;" id="exportFooter">
+     © 2026 <strong>eFootball League Official</strong>. All Rights Reserved.<br>
+     Sistem ini dirancang oleh: <strong>Muhammad Arya Putra Perdana</strong>
+   </div>
  </div>`;
 }
 
 function exportStandingsImage(){
  let el = document.getElementById('exportableStandings');
  let header = document.getElementById('exportHeader');
+ let footer = document.getElementById('exportFooter');
  if(!el) return;
  
+ // Tampilkan header dan footer sementara
  header.style.display = 'block';
+ if(footer) footer.style.display = 'block';
  el.style.width = '900px';
  toast('Memproses gambar klasemen...');
 
@@ -404,8 +466,11 @@ function exportStandingsImage(){
    logging: false,
    windowWidth: 1000
  }).then(canvas => {
+   // Sembunyikan kembali header dan footer
    header.style.display = 'none';
+   if(footer) footer.style.display = 'none';
    el.style.width = '100%';
+   
    let link = document.createElement('a');
    link.download = `Klasemen-${state.league.name.replace(/\s+/g, '_')}-${state.league.season.replace(/\s+/g, '_')}.png`;
    link.href = canvas.toDataURL('image/png');
@@ -413,6 +478,7 @@ function exportStandingsImage(){
    toast('Klasemen berhasil diunduh!');
  }).catch(err => {
    header.style.display = 'none';
+   if(footer) footer.style.display = 'none';
    el.style.width = '100%';
    console.error(err);
    toast('Gagal mengunduh gambar');
@@ -473,7 +539,6 @@ function schedulePage(){
  return `<div class="notice">Generator ini menggunakan format <strong>Round Robin</strong> (semua peserta saling bertemu, dan peserta dijamin tidak melawan dirinya sendiri).</div><div class="card"><div class="form"><div class="field"><label>Tanggal mulai</label><input id="startDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Jarak antar ronde (hari)</label><input id="gap" type="number" min="1" value="3"></div></div><div class="actions" style="margin-top:14px"><button class="btn primary" onclick="generateSchedule()">Generate Jadwal</button><button class="btn danger" onclick="clearSchedule()">Hapus semua jadwal</button></div></div><div class="card section">${state.matches.length?state.matches.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).map(matchRow).join(''):`<div class="empty">Belum ada jadwal.</div>`}</div>`;
 }
 
-// --- PEMBARUAN HALAMAN STATISTIK AGAR JELAS & TIDAK AMBIGU ---
 function statsPage(){
  let s=standings(), totalGoals=s.reduce((a,x)=>a+x.gf,0), top=s[0];
  let playedMatchesCount = state.matches.filter(m=>m.played).length;
@@ -698,7 +763,6 @@ function resetAll(){
 function modal(html){let d=document.createElement('div');d.className='modal';d.id='modal';d.innerHTML='<div class="modal-box">'+html+'</div>';document.body.appendChild(d)}
 function closeModal(){document.getElementById('modal')?.remove()}
 
-// --- FUNGSI UNTUK MEMUNCULKAN KARTU PROFIL PEMAIN ---
 function viewPlayerProfile(pid) {
     let p = player(pid);
     if (!p) return toast('Pemain tidak ditemukan');
